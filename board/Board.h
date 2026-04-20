@@ -1,0 +1,13 @@
+//
+// Created by D00280022 on 20/04/2026.
+//
+
+#ifndef CPLUSPLUS_BUGGAME_SILVER_BOARD_H
+#define CPLUSPLUS_BUGGAME_SILVER_BOARD_H
+
+
+class board {
+};
+
+
+#endif //CPLUSPLUS_BUGGAME_SILVER_BOARD_H
