@@ -14,16 +14,15 @@ using namespace std;
 
 class Crawler : public Bug
 {
-    public:
-        int id;
-        pair<int, int> position;
-        int direction;
-        int health;
-        bool isAlive;
-        list<pair<int, int>> path;
-        virtual move();
-        bool isWayBlocked();
+    void move();
+
+
+
+
+
 };
+
+
 
 
 #endif //CPLUSPLUS_BUGGAME_SILVER_CRAWLER_H

@@ -5,7 +5,7 @@
 #ifndef CPLUSPLUS_BUGGAME_SILVER_HOPPER_H
 #define CPLUSPLUS_BUGGAME_SILVER_HOPPER_H
 
-#include "../Bug.h"
+#include "bugs/Bug.h"
 
 
 class Hopper : public Bug
@@ -13,14 +13,7 @@ class Hopper : public Bug
     private:
         int hopLength;
     public:
-        int id;
-        pair<int, int> position;
-        int direction;
-        int health;
-        bool isAlive;
-        list<pair<int, int>> path;
-        virtual move();
-        bool isWayBlocked();
+    void move;
 };
 
 

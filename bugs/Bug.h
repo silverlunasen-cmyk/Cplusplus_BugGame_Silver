@@ -6,7 +6,20 @@
 #define CPLUSPLUS_BUGGAME_SILVER_BUG_H
 
 namespace std {
-    class Bug {
+    class Bug
+    {
+    protected:
+        int id;
+        pair<int, int> position;
+        int direction;
+        int health;
+        bool isAlive;
+        list<pair<int, int>> path;
+        virtual move();
+        bool isWayBlocked();
+
+    public:
+        virtual void move();
     };
 } // std
 

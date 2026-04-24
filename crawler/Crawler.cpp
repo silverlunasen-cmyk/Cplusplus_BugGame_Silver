@@ -6,3 +6,8 @@
 #include "iostream"
 
 using namespace std;
+
+void Crawler::move()
+{
+    id = 4;
+}
