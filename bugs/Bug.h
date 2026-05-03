@@ -1,26 +1,59 @@
 //
-// Created by D00280022 on 20/04/2026.
+// Created by Sysadmin on 03/05/2026.
 //
 
 #ifndef CPLUSPLUS_BUGGAME_SILVER_BUG_H
 #define CPLUSPLUS_BUGGAME_SILVER_BUG_H
+#include <list>
+#include <utility>
 
-namespace std {
-    class Bug
+enum direction {north = 1, south = 2, east = 3, west = 4};
+
+class Bug
+{
+protected:
+    int id;
+    std::pair<int, int> position;
+    direction direction;
+    int health;
+    bool alive;
+    std::list<std::pair<int, int>> previousPath;
+    bool blocked;
+
+
+public:
+    Bug(int id, int x, int y, enum direction dir, int h)
+            : id(id), position({x, y}), direction(dir), health(h), alive(true)
     {
-    protected:
-        int id;
-        pair<int, int> position;
-        int direction;
-        int health;
-        bool isAlive;
-        list<pair<int, int>> path;
-        virtual move();
-        bool isWayBlocked();
+        previousPath.push_back(position);
+    }
+    virtual ~Bug() {}
 
-    public:
-        virtual void move();
-    };
-} // std
+    virtual void display() = 0;
+    virtual void move() = 0;
+
+    bool isAlive()
+    {
+        if (health <= 0)
+        {
+            return false;
+        }
+        return true;
+    }
+    bool isBlocked()
+    {
+        int x = position.first;
+        int y = position.second;
+        if (direction == 1 && position.second == 0) return true; // North
+        if (direction == 2 && position.first == 9)  return true; // South
+        if (direction == 3 && position.second == 9) return true; // East
+        if (direction == 4 && position.first == 0)  return true; // West
+    }
+
+
+
+};
+
+
 
 #endif //CPLUSPLUS_BUGGAME_SILVER_BUG_H
