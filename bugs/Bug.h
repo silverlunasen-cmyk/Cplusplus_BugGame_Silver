@@ -4,6 +4,7 @@
 
 #ifndef CPLUSPLUS_BUGGAME_SILVER_BUG_H
 #define CPLUSPLUS_BUGGAME_SILVER_BUG_H
+#include <iostream>
 #include <list>
 #include <utility>
 
@@ -14,7 +15,7 @@ class Bug
 protected:
     int id;
     std::pair<int, int> position;
-    direction direction;
+    direction facing;
     int health;
     bool alive;
     std::list<std::pair<int, int>> previousPath;
@@ -23,14 +24,39 @@ protected:
 
 public:
     Bug(int id, int x, int y, enum direction dir, int h)
-            : id(id), position({x, y}), direction(dir), health(h), alive(true)
+            : id(id), position({x, y}), facing(dir), health(h), alive(true)
     {
         previousPath.push_back(position);
     }
     virtual ~Bug() {}
 
+    void displayHistory(std::ostream& out = std::cout)
+    {
+        bool first = true;
+        for (const auto& pos : previousPath)
+        {
+            if (!first)
+                {
+                std::cout << ", ";
+            }
+            std::cout << "(" << pos.first << "," << pos.second << ")";
+            first = false;
+        }
+
+        if (!isAlive())
+        {
+            std::cout << " (Dead)";
+        }
+        else
+        {
+            std::cout << " (Alive)";
+        }
+    }
+
     virtual void display() = 0;
     virtual void move() = 0;
+
+    int getId() const { return id; }
 
     bool isAlive()
     {
@@ -44,10 +70,12 @@ public:
     {
         int x = position.first;
         int y = position.second;
-        if (direction == 1 && position.second == 0) return true; // North
-        if (direction == 2 && position.first == 9)  return true; // South
-        if (direction == 3 && position.second == 9) return true; // East
-        if (direction == 4 && position.first == 0)  return true; // West
+        if (facing == north && position.second <= 0) return true;
+        if (facing == south && position.second >= 9) return true;
+        if (facing == east  && position.first >= 9) return true;
+        if (facing == west  && position.first <= 0) return true;
+        return false;
+
     }
 
 
