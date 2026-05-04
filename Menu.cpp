@@ -2,6 +2,7 @@
 // Created by Sysadmin on 30/04/2026.
 //
 
+#include <filesystem>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -80,7 +81,7 @@ int main()
             if (bug_vector.empty()) {
                 cout << "No bugs on the board. Initialize first!" << endl;
             } else
-                {
+            {
                 for (Bug* b : bug_vector) {
                     // Polymorphism handles the different output for Crawler vs Hopper
                     b->display();
@@ -89,14 +90,49 @@ int main()
             break;
         case 3:
             {
-                cout << "search";
+                bool found = false;
+                cout << "Enter the id of the bug you would like to find";
+                int idNum;
+                cin >> idNum;
+                for (int i = 0; i < bug_vector.size(); i++)
+                {
+                    if (idNum == bug_vector[i] -> getId())
+                    {
+                        found = true;
+                        bug_vector[i] -> display();
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    cout << "Bug " << idNum << " not found in list!" << endl;
+                }
                 break;
             }
         case 4:
             cout << "Tap \n";
+            for (int i = 0; i < bug_vector.size(); i++)
+            {
+                bug_vector[i] -> move();
+            }
             break;
         case 5:
             cout << "History is created by the victors \n";
+            cout << "previous history";
+            cout << "--- Bug Life History ---" << endl;
+            for (int i = 0; i < bug_vector.size(); i++) {
+                // Print ID and Type
+                cout << bug_vector[i]->getId() << " ";
+
+                // This checks if the bug is a Crawler or Hopper for the label
+                if (dynamic_cast<Crawler*>(bug_vector[i])) cout << "Crawler ";
+                else cout << "Hopper ";
+
+                cout << "Path: ";
+
+                bug_vector[i]->displayHistory();
+                cout << endl;
+            }
             break;
         case 6:
             cout << "cells \n";
@@ -105,7 +141,25 @@ int main()
             cout << "run forest, run \n";
             break;
         case 8:
-            cout << "exit \n";
+            {
+                cout << "exit \n";
+                ofstream Test("history.txt");
+                if (Test.is_open()) {
+                    for (int i = 0; i < bug_vector.size(); i++)
+                    {
+                        // Write the ID and Type first
+                        Test << bug_vector[i]->getId() << " ";
+
+                        // Write the path history to the file
+                        bug_vector[i]->displayHistory();
+
+                        // Add a newline after each bug
+                        Test << endl;
+                    }
+                    Test.close();
+                    cout << "History saved to history.txt!" << endl;
+                }
+            }
             running = false;
             break;
         default:
