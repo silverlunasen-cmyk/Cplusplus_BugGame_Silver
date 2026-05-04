@@ -18,18 +18,19 @@ class Crawler : public Bug
 
     void move() override
     {
-        while (blocked)
+        while (isBlocked())
         {
-            direction == (rand() % 4) + 1;
+            facing = static_cast<direction>((rand() % 4) + 1);
         }
-        if (direction == north)
+        if (facing == north)
             position.second -= 1;
-        else if (direction == south)
+        else if (facing == south)
               position.second += 1;
-        else if (direction == east)
+        else if (facing == east)
               position.first += 1;
-        else if (direction == west)
+        else if (facing == west)
               position.first -= 1;
+        previousPath.push_back(position);
     }
     void display() override
     {
@@ -37,7 +38,7 @@ class Crawler : public Bug
         std::string dirName[] = {"", "North", "South", "East", "West"};
 
         std::cout << id << " Crawler (" << position.first << "," << position.second << ") "
-                  << health << " " << dirName[direction] << " " << status << std::endl;
+                  << health << " " << dirName[facing] << " " << status << std::endl;
     }
 
 };

@@ -22,23 +22,15 @@ public:
 
     void move() override
     {
-        while (blocked)
+        while (isBlocked())
         {
-            direction == (rand() % 4) + 1;
+            facing = static_cast<direction>((rand() % 4) + 1);
 
         }
-        for (int i = 0; i < hopLength; i++)
-        {
-            if (blocked)
-            {
-                break;
-            }
-            if (direction == north) position.second =+ hopLength;
-            else if (direction == south) position.second =- hopLength;
-            else if (direction == east) position.first =+ hopLength;
-            else if (direction == west) position.first =- hopLength;
-
-        }
+        if (facing == north) position.second += hopLength;
+        else if (facing == south) position.second -= hopLength;
+        else if (facing == east) position.first += hopLength;
+        else if (facing == west) position.first -= hopLength;
         previousPath.push_back(position);
 
     }
@@ -48,7 +40,7 @@ public:
         std::string dirName[] = {"", "North", "South", "East", "West"};
 
         std::cout << id << " Hopper (" << position.first << "," << position.second << ") "
-                  << dirName[direction] << "" << health << " " << " " << hopLength << " " << status << std::endl;
+                  << dirName[facing] << "" << health << " " << " " << hopLength << " " << status << std::endl;
     };
 
 };
