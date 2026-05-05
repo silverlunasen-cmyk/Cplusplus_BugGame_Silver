@@ -56,8 +56,10 @@ public:
     virtual void display() = 0;
     virtual void move() = 0;
 
+
     int getId() const { return id; }
 
+    std::pair<int, int> getPosition() const { return position; }
     bool isAlive()
     {
         if (health <= 0)
@@ -77,7 +79,6 @@ public:
         return false;
 
     }
-
 
 
 };
