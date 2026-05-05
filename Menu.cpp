@@ -69,26 +69,25 @@ int main()
         cout << "Enter your choice: ";
         cin >> input;
 
-        switch (input)
-        {
-        case 1:
-            cout << "Initialising Bug board";
-            readIn(bug_vector);
-            cout << bug_vector.size() << " bugs \n";
-            break;
-        case 2:
-            cout << "Displaying all Bugs:" << endl;
-            if (bug_vector.empty()) {
-                cout << "No bugs on the board. Initialize first!" << endl;
-            } else
-            {
-                for (Bug* b : bug_vector) {
-                    // Polymorphism handles the different output for Crawler vs Hopper
-                    b->display();
+        switch (input) {
+            case 1:
+                cout << "Initialising Bug board";
+                readIn(bug_vector);
+                cout << bug_vector.size() << " bugs \n";
+                break;
+            case 2:
+                cout << "Displaying all Bugs:" << endl;
+                if (bug_vector.empty()) {
+                    cout << "No bugs on the board. Initialize first!" << endl;
+                } else
+                {
+                    for (Bug* b : bug_vector) {
+                        // Polymorphism handles the different output for Crawler vs Hopper
+                        b->display();
+                    }
                 }
-            }
-            break;
-        case 3:
+                break;
+            case 3:
             {
                 bool found = false;
                 cout << "Enter the id of the bug you would like to find";
@@ -109,36 +108,70 @@ int main()
                 }
                 break;
             }
-        case 4:
-            cout << "Tap \n";
-            for (int i = 0; i < bug_vector.size(); i++)
-            {
-                bug_vector[i] -> move();
+            case 4:
+                cout << "Tap \n";
+                for (int i = 0; i < bug_vector.size(); i++)
+                {
+                    bug_vector[i] -> move();
+                }
+                break;
+            case 5:
+                cout << "History is created by the victors \n";
+                cout << "previous history";
+                cout << "--- Bug Life History ---" << endl;
+                for (int i = 0; i < bug_vector.size(); i++)
+                {
+                    // Print ID and Type
+                    cout << bug_vector[i]->getId() << " ";
+
+                    // This checks if the bug is a Crawler or Hopper for the label
+                    if (dynamic_cast<Crawler*>(bug_vector[i])) cout << "Crawler ";
+                    else cout << "Hopper ";
+
+                    cout << "Path: ";
+
+                    bug_vector[i]->displayHistory();
+                    cout << endl;
+                }
+                break;
+            case 6: {
+                cout << "cells \n";
+                int cell1 = 0;
+                for (int i = 0; i < 10; i++)
+                {
+                    int cell2 = 0;
+                    cell1 = cell1 + 1;
+                    for (int j = 0; j < 10; j++) {
+                        cell2 = cell2 + 1;
+                        cout << cell1 << "," << cell2 << " ";
+                        for (int k = 0; k < bug_vector.size(); k++)
+                        {
+                            if (bug_vector[i] != nullptr)
+                            {
+                                std::pair<int, int> bugPos = bug_vector[i]->getPosition();
+
+                                if (cell1 == bugPos.first && cell2 == bugPos.second)
+                                {
+                                    bug_vector[i]->display();
+                                }
+                            }
+                        }
+                    }
+                    cout << endl;
+                }
+
+                break;
             }
-            break;
-        case 5:
-            cout << "History is created by the victors \n";
-            cout << "previous history";
-            cout << "--- Bug Life History ---" << endl;
-            for (int i = 0; i < bug_vector.size(); i++) {
-                // Print ID and Type
-                cout << bug_vector[i]->getId() << " ";
-
-                // This checks if the bug is a Crawler or Hopper for the label
-                if (dynamic_cast<Crawler*>(bug_vector[i])) cout << "Crawler ";
-                else cout << "Hopper ";
-
-                cout << "Path: ";
-
-                bug_vector[i]->displayHistory();
-                cout << endl;
-            }
-            break;
-        case 6:
-            cout << "cells \n";
-            break;
         case 7:
             cout << "run forest, run \n";
+            for(int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < bug_vector.size(); j++)
+                {
+                    bug_vector[j] -> move();
+                }
+
+            };
             break;
         case 8:
             {
