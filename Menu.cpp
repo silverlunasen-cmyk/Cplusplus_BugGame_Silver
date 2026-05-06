@@ -9,50 +9,19 @@
 #include <vector>
 #include <string>
 
+#include "board/Board.h"
 #include "bugs/Bug.h"
 #include "crawler/Crawler.h"
 #include "hopper/Hopper.h"
 
 using namespace std;
-void readIn(vector<Bug*>& bug_vector)
-{
-    std::ifstream file("bugs.txt");
-    char type, sep;
-    int id, x, y, dir, health, hop;
 
-    if (!file.is_open())
-    {
-        cout << "file not able to be opened!";
-    }
-
-    // Read the type character (c or h)
-    while (file >> type) {
-        file >> sep;         // eat first ';'
-        file >> id >> sep;    // get ID and eat ';'
-        file >> x >> sep;     // get X and eat ';'
-        file >> y >> sep;     // get Y and eat ';'
-        file >> dir >> sep;   // get Direction and eat ';'
-        file >> health;       // get Health
-
-
-
-        if (type == 'c') {
-            bug_vector.push_back(new Crawler(id, x, y, static_cast<enum direction>(dir), health));
-        }
-        else if (type == 'h') {
-            file >> sep >> hop; // get extra ';' and hopLength for Hoppers
-            bug_vector.push_back(new Hopper(id, x, y, static_cast<enum direction>(dir), health, hop));
-        }
-    }
-    file.close();
-}
 bool running = true;
 int main()
 {
-    vector<Bug*> bug_vector;
+    Board gameBoard;
     while (running)
     {
-
         int input;
         cout << "----------------------------------------" << endl;
         cout << "              BUG BOARD MENU            " << endl;
@@ -70,136 +39,52 @@ int main()
         cin >> input;
 
         switch (input) {
-            case 1:
-                cout << "Initialising Bug board";
-                readIn(bug_vector);
-                cout << bug_vector.size() << " bugs \n";
-                break;
-            case 2:
-                cout << "Displaying all Bugs:" << endl;
-                if (bug_vector.empty()) {
-                    cout << "No bugs on the board. Initialize first!" << endl;
-                } else
-                {
-                    for (Bug* b : bug_vector) {
-                        // Polymorphism handles the different output for Crawler vs Hopper
-                        b->display();
-                    }
-                }
-                break;
-            case 3:
+        case 1:
+            cout << "Initialising Bug board... \n";
+            gameBoard.readIn();
+            break;
+        case 2:
+            cout << "Displaying all Bugs:" << endl;
+            gameBoard.displayAllBugs();
+            break;
+        case 3:
             {
-                bool found = false;
+                int id;
                 cout << "Enter the id of the bug you would like to find";
-                int idNum;
-                cin >> idNum;
-                for (int i = 0; i < bug_vector.size(); i++)
-                {
-                    if (idNum == bug_vector[i] -> getId())
-                    {
-                        found = true;
-                        bug_vector[i] -> display();
-                        break;
-                    }
-                }
-                if (!found)
-                {
-                    cout << "Bug " << idNum << " not found in list!" << endl;
-                }
+                cin >> id;
+                gameBoard.findAndDisplayBug(id);
                 break;
             }
-            case 4:
-                cout << "Tap \n";
-                for (int i = 0; i < bug_vector.size(); i++)
-                {
-                    bug_vector[i] -> move();
-                }
-                break;
-            case 5:
-                cout << "History is created by the victors \n";
-                cout << "previous history";
-                cout << "--- Bug Life History ---" << endl;
-                for (int i = 0; i < bug_vector.size(); i++)
-                {
-                    // Print ID and Type
-                    cout << bug_vector[i]->getId() << " ";
-
-                    // This checks if the bug is a Crawler or Hopper for the label
-                    if (dynamic_cast<Crawler*>(bug_vector[i])) cout << "Crawler ";
-                    else cout << "Hopper ";
-
-                    cout << "Path: ";
-
-                    bug_vector[i]->displayHistory();
-                    cout << endl;
-                }
-                break;
-            case 6: {
-                cout << "cells \n";
-                int cell1 = 0;
-                for (int i = 0; i < 10; i++)
-                {
-                    int cell2 = 0;
-                    cell1 = cell1 + 1;
-                    for (int j = 0; j < 10; j++) {
-                        cell2 = cell2 + 1;
-                        cout << cell1 << "," << cell2 << " ";
-                        for (int k = 0; k < bug_vector.size(); k++)
-                        {
-                            if (bug_vector[i] != nullptr)
-                            {
-                                std::pair<int, int> bugPos = bug_vector[i]->getPosition();
-
-                                if (cell1 == bugPos.first && cell2 == bugPos.second)
-                                {
-                                    bug_vector[i]->display();
-                                }
-                            }
-                        }
-                    }
-                    cout << endl;
-                }
-
-                break;
-            }
+        case 4:
+            cout << "Tap \n";
+            gameBoard.tap();
+            break;
+        case 5:
+            cout << "History is created by the victors \n";
+            cout << "previous history";
+            gameBoard.displayAllHistories();
+            break;
+        case 6:
+            cout << "cells \n";
+            gameBoard.displayCells();
+            break;
         case 7:
             cout << "run forest, run \n";
             for(int i = 0; i < 5; i++)
             {
-                for (int j = 0; j < bug_vector.size(); j++)
-                {
-                    bug_vector[j] -> move();
-                }
-
+                gameBoard.tap();
             };
             break;
         case 8:
             {
                 cout << "exit \n";
-                ofstream Test("history.txt");
-                if (Test.is_open()) {
-                    for (int i = 0; i < bug_vector.size(); i++)
-                    {
-                        // Write the ID and Type first
-                        Test << bug_vector[i]->getId() << " ";
-
-                        // Write the path history to the file
-                        bug_vector[i]->displayHistory();
-
-                        // Add a newline after each bug
-                        Test << endl;
-                    }
-                    Test.close();
-                    cout << "History saved to history.txt!" << endl;
-                }
+                gameBoard.saveHistoryToFile("history.txt");
+                running = false;
+                break;
+                default:
+                cout << "invalid input: please select 1-8 \n";
+                break;
             }
-            running = false;
-            break;
-        default:
-            cout << "invalid input: please select 1-8 \n";
-            break;
         }
     }
-
-
 }
