@@ -1,13 +1,36 @@
-//
-// Created by D00280022 on 20/04/2026.
-//
+#ifndef BOARD_H
+#define BOARD_H
 
-#ifndef CPLUSPLUS_BUGGAME_SILVER_BOARD_H
-#define CPLUSPLUS_BUGGAME_SILVER_BOARD_H
+#include <vector>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include "../bugs/Bug.h"
+#include "../crawler/Crawler.h"
+#include "../hopper/Hopper.h"
+using namespace std;
+
+class Bug;
+
+class Board {
+private:
 
 
-class board {
+    std::vector<Bug*> bug_vector;
+    std::vector<Bug*> grid[10][10];
+
+public:
+    // 1. Constructor & Destructor
+    Board();
+    ~Board();
+
+    void readIn();
+    void displayAllBugs() const;
+    void findAndDisplayBug(int id) const;
+    void tap();
+    void displayAllHistories() const;
+    void displayCells();
+    void saveHistoryToFile(const std::string& filename);
 };
 
-
-#endif //CPLUSPLUS_BUGGAME_SILVER_BOARD_H
+#endif
