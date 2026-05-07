@@ -58,5 +58,5 @@ void Hopper::display() const
         status = "Alive";
     }
     cout << id << " Hopper (" << position.first << "," << position.second << ") "
-              << dirName[facing] << "" << health << " " << " " << hopLength << " " << status << endl;
+              << health << dirName[facing] << " " << " " << " " << hopLength << " " << status << endl;
 };
