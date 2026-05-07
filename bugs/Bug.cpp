@@ -1,4 +1,5 @@
 #include "Bug.h"
+using namespace std;
 
 Bug::Bug(int id, int x, int y, enum direction dir, int h)
     : id(id), position({x, y}), facing(dir), health(h), alive(true)
@@ -6,7 +7,7 @@ Bug::Bug(int id, int x, int y, enum direction dir, int h)
     previousPath.push_back(position);
 }
 
-void Bug::displayHistory(std::ostream& out) const
+void Bug::displayHistory(ostream& out) const
 {
     bool first = true;
     for (const auto& pos : previousPath)

@@ -5,6 +5,7 @@
 #include "Board.h"
 #include "../crawler/Crawler.h"
 #include "../hopper/Hopper.h"
+#include "../vampireBug/Vampire.h"
 #include <iostream>
 #include <fstream>
 
@@ -17,7 +18,7 @@ Board::~Board() {
 }
  void Board::readIn()
     {
-        std::ifstream file("bugs.txt");
+        ifstream file("bugs.txt");
         char type, sep;
         int id, x, y, dir, health, hop;
 
@@ -60,11 +61,11 @@ Board::~Board() {
     {
         if (bug_vector.empty())
         {
-            cout << "The board is empty. Please initialize first (Option 1)." << std::endl;
+            cout << "The board is empty. Please initialize first (Option 1)." << endl;
             return;
         }
 
-        std::cout << "Displaying all bugs on the board:" << std::endl;
+        cout << "Displaying all bugs on the board:" << endl;
         for (Bug* b : bug_vector)
         {
 
@@ -92,7 +93,7 @@ void Board::findAndDisplayBug(int id) const
 
 void Board::tap()
 {
-    std::cout << "\n--- Tapping the Board! ---\n" << std::endl;
+    cout << "\n--- Tapping the Board! ---\n" << endl;
     for (int i = 0; i < 10; i++)
     {
         for (int j = 0; j < 10; j++)
@@ -111,8 +112,8 @@ void Board::tap()
 
             auto pos = bug_vector[i]->getPosition();
 
-            std::cout << "Bug " << bug_vector[i]->getId() << " moved to ";
-            std::cout << "(" << pos.first << ", " << pos.second <<")" << std::endl;
+            cout << "Bug " << bug_vector[i]->getId() << " moved to ";
+            cout << "(" << pos.first << ", " << pos.second <<")" << endl;
             grid[pos.first][pos.second].push_back(bug_vector[i]);
         }
     }
@@ -132,7 +133,7 @@ void Board::tap()
                     b1->drainHealth(b2);
                     b2->drainHealth(b1);
 
-                    cout << "Fight! Between " << b1->getId() << " and " << b2->getId() << std::endl;
+                    cout << "Fight! Between " << b1->getId() << " and " << b2->getId() << endl;
                     // Conduct 3 rounds of fighting
                     for (int round = 0; round < 3; round++)
                     {
@@ -145,7 +146,7 @@ void Board::tap()
                         // End fight immediately if someone dies
                         if (!b1->isAlive() || !b2->isAlive())
                         {
-                            std::cout << "the fight is over! \n";
+                            cout << "the fight is over! \n";
                             break;
                         }
                     }
@@ -204,7 +205,7 @@ void Board::tap()
                     // Safety check
                     if (bug_vector[k] != nullptr)
                     {
-                        std::pair<int, int> bugPos = bug_vector[k]->getPosition();
+                        pair<int, int> bugPos = bug_vector[k]->getPosition();
 
                         // Check if this bug (k) is at this cell (x, y)
                         if (x == bugPos.first && y == bugPos.second)
@@ -223,13 +224,13 @@ void Board::tap()
     }
 
     // Stage 8: Save to file
-    void Board::saveHistoryToFile(const std::string& filename)
+    void Board::saveHistoryToFile(const string& filename)
     {
-        std::ofstream outFile(filename);
+        ofstream outFile(filename);
 
         if (!outFile.is_open())
         {
-            std::cout << "Error: Could not create " << filename << std::endl;
+            cout << "Error: Could not create " << filename << endl;
             return;
         }
 
@@ -240,6 +241,7 @@ void Board::tap()
 
             // 2. Identify type for the file record
             if (dynamic_cast<Crawler*>(b)) outFile << "Crawler ";
+            else if (dynamic_cast<VampireBug*>(b)) outFile << "VampireBug ";
             else outFile << "Hopper ";
 
             // 3. Write the path history
@@ -249,11 +251,11 @@ void Board::tap()
             if (b->isAlive()) outFile << " (Alive)";
             else outFile << " (Dead)";
 
-            outFile << std::endl;
+            outFile << endl;
         }
 
         outFile.close();
-        std::cout << "All life histories saved to " << filename << std::endl;
+        cout << "All life histories saved to " << filename << endl;
     }
 int Board::getAliveCount()
 {

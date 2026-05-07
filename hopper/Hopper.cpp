@@ -47,9 +47,16 @@ void Hopper::move()
 }
 void Hopper::display() const
 {
-    std::string status = (health > 0) ? "Alive" : "Dead";
-    std::string dirName[] = {"", "North", "South", "East", "West"};
-
-    std::cout << id << " Hopper (" << position.first << "," << position.second << ") "
-              << dirName[facing] << "" << health << " " << " " << hopLength << " " << status << std::endl;
+    string dirName[] = {"", "North", "South", "East", "West"};
+    string status;
+    if (health < 0)
+    {
+        status = "Dead";
+    }
+    else
+    {
+        status = "Alive";
+    }
+    cout << id << " Hopper (" << position.first << "," << position.second << ") "
+              << dirName[facing] << "" << health << " " << " " << hopLength << " " << status << endl;
 };

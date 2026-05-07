@@ -17,8 +17,8 @@ class Board {
 private:
 
 
-    std::vector<Bug*> bug_vector;
-    std::vector<Bug*> grid[10][10];
+    vector<Bug*> bug_vector;
+    vector<Bug*> grid[10][10];
 
 public:
     // 1. Constructor & Destructor
@@ -31,7 +31,7 @@ public:
     void tap();
     void displayAllHistories() const;
     void displayCells();
-    void saveHistoryToFile(const std::string& filename);
+    void saveHistoryToFile(const string& filename);
     int getAliveCount();
 };
 

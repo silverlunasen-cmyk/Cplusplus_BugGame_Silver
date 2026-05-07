@@ -54,11 +54,20 @@ void VampireBug::drainHealth(Bug* victim)
     int stealAmount = 5;
     victim->setHealth(victim->getHealth() - stealAmount);
     this->setHealth(this->getHealth() + stealAmount);
-    std::cout << "The vampire " << id << " sucked 5 HP from Bug " << victim->getId() << "!" << std::endl;
+    cout << "The vampire " << id << " sucked 5 HP from Bug " << victim->getId() << "!" << endl;
 }
 
 void VampireBug::display() const
 {
-    std::string status = (health > 0) ? "Alive" : "Dead";
-    std::cout << id << " Vampire (" << position.first << "," << position.second << ") HP: " << health << " " << status << std::endl;
+    string dirName[] = {"", "North", "South", "East", "West"};
+    string status;
+    if (health < 0)
+    {
+        status = "Dead";
+    }
+    else
+    {
+        status = "Alive";
+    }
+    cout << id << " Vampire (" << position.first << "," << position.second << ") " << " HP: " << health << " " << status << endl;
 }

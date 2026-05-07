@@ -1,4 +1,5 @@
 #include "Crawler.h"
+using namespace std;
 
 void Crawler::move()
 {
@@ -19,9 +20,17 @@ void Crawler::move()
 
 void Crawler::display() const
 {
-    std::string status = (health > 0) ? "Alive" : "Dead";
-    std::string dirName[] = {"", "North", "South", "East", "West"};
+    string dirName[] = {"", "North", "South", "East", "West"};
 
-    std::cout << id << " Crawler (" << position.first << "," << position.second << ") "
-              << health << " " << dirName[facing] << " " << status << std::endl;
+    string status;
+    if (health < 0)
+    {
+        status = "Dead";
+    }
+    else
+    {
+        status = "Alive";
+    }
+    cout << id << " Crawler (" << position.first << "," << position.second << ") "
+              << health << " " << dirName[facing] << " " << status << endl;
 }
