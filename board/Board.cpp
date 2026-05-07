@@ -27,7 +27,8 @@ Board::~Board() {
         }
 
         // Read the type character (c or h)
-        while (file >> type) {
+        while (file >> type)
+        {
             file >> sep;         // eat first ';'
             file >> id >> sep;    // get ID and eat ';'
             file >> x >> sep;     // get X and eat ';'
@@ -37,26 +38,35 @@ Board::~Board() {
 
 
 
-            if (type == 'c') {
+            if (type == 'c')
+            {
                 bug_vector.push_back(new Crawler(id, x, y, static_cast<enum direction>(dir), health));
             }
-            else if (type == 'h') {
+            else if (type == 'h')
+            {
                 file >> sep >> hop; // get extra ';' and hopLength for Hoppers
                 bug_vector.push_back(new Hopper(id, x, y, static_cast<enum direction>(dir), health, hop));
+            }
+            else if (type == 'v')
+            {
+                bug_vector.push_back(new VampireBug(id, x, y, static_cast<enum direction>(dir), health));
             }
         }
         file.close();
         cout << "initialised board with " << bug_vector.size() << " bugs!" << endl;
     }
 
-    void Board::displayAllBugs() const {
-        if (bug_vector.empty()) {
+    void Board::displayAllBugs() const
+    {
+        if (bug_vector.empty())
+        {
             cout << "The board is empty. Please initialize first (Option 1)." << std::endl;
             return;
         }
 
         std::cout << "Displaying all bugs on the board:" << std::endl;
-        for (Bug* b : bug_vector) {
+        for (Bug* b : bug_vector)
+        {
 
             b->display();
         }
@@ -95,7 +105,8 @@ void Board::tap()
     for (int i = 0; i < bug_vector.size(); i++)
     {
         auto pos = bug_vector[i]->getPosition();
-        if (bug_vector[i]->isAlive()) {
+        if (bug_vector[i]->isAlive())
+        {
             bug_vector[i]->move();
 
             auto pos = bug_vector[i]->getPosition();
@@ -134,11 +145,22 @@ void Board::tap()
                         // End fight immediately if someone dies
                         if (!b1->isAlive() || !b2->isAlive())
                         {
-                            std::cout << "the fight is over!";
+                            std::cout << "the fight is over! \n";
                             break;
                         }
                     }
                 }
+            }
+        }
+    }
+    int survivors = getAliveCount();
+    if (survivors == 1)
+    {
+        for (int i = 0; i < bug_vector.size(); i++)
+        {
+            if (bug_vector[i]->isAlive())
+            {
+                cout << "A big congratulations to bug number " << bug_vector[i]->getId() << ", they are our lucky winner today! \n";
             }
         }
     }
@@ -233,3 +255,15 @@ void Board::tap()
         outFile.close();
         std::cout << "All life histories saved to " << filename << std::endl;
     }
+int Board::getAliveCount()
+{
+    int count = 0;
+    for (int i = 0; i < bug_vector.size(); i++)
+    {
+        if (bug_vector[i]->isAlive())
+        {
+            count++;
+        }
+    }
+    return count;
+}

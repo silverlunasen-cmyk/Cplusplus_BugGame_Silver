@@ -8,6 +8,7 @@
 #include "../bugs/Bug.h"
 #include "../crawler/Crawler.h"
 #include "../hopper/Hopper.h"
+#include "../vampireBug/Vampire.h"
 using namespace std;
 
 class Bug;
@@ -31,6 +32,7 @@ public:
     void displayAllHistories() const;
     void displayCells();
     void saveHistoryToFile(const std::string& filename);
+    int getAliveCount();
 };
 
 #endif
