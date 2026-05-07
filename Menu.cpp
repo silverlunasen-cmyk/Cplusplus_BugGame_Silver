@@ -29,7 +29,7 @@ int main()
         cout << "7. Run simulation (generates a Tap every second)" << endl;
         cout << "8. Exit (write Life History of all Bugs to file)" << endl;
         cout << "----------------------------------------" << endl;
-        cout << "Enter your choice: ";
+        cout << "Enter your choice: \n";
         cin >> input;
 
         switch (input) {
@@ -44,7 +44,7 @@ int main()
         case 3:
             {
                 int id;
-                cout << "Enter the id of the bug you would like to find";
+                cout << "Enter the id of the bug you would like to find! \n";
                 cin >> id;
                 gameBoard.findAndDisplayBug(id);
                 break;
@@ -54,16 +54,16 @@ int main()
             gameBoard.tap();
             break;
         case 5:
-            cout << "History is created by the victors \n";
+            cout << "History is created by the victors! \n";
             cout << "previous history";
             gameBoard.displayAllHistories();
             break;
         case 6:
-            cout << "cells \n";
+            cout << "Here's a list of cells! \n";
             gameBoard.displayCells();
             break;
         case 7:
-            cout << "run forest, run \n";
+            cout << "Running 5 taps! \n";
             for(int i = 0; i < 5; i++)
             {
                 gameBoard.tap();
