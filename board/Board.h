@@ -2,9 +2,13 @@
 #define BOARD_H
 
 #include <vector>
-
+#include <iostream>
+#include <fstream>
 #include <string>
 #include "../bugs/Bug.h"
+#include "../crawler/Crawler.h"
+#include "../hopper/Hopper.h"
+#include "../vampireBug/Vampire.h"
 using namespace std;
 
 class Bug;
