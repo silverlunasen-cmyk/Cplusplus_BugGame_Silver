@@ -75,10 +75,10 @@ int main()
                 gameBoard.saveHistoryToFile("history.txt");
                 running = false;
                 break;
+            }
                 default:
                 cout << "invalid input: please select 1-8 \n";
                 break;
             }
         }
     }
-}
