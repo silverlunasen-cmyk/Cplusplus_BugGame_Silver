@@ -12,6 +12,8 @@ add_executable(Cplusplus_BugGame_Silver
         crawler/Crawler.h
         hopper/Hopper.cpp
         hopper/Hopper.h
+        vampireBug/vampire.cpp
+        vampireBug/vampire.h
 )
 
 target_include_directories(Cplusplus_BugGame_Silver PRIVATE
