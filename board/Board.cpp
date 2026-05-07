@@ -105,7 +105,6 @@ void Board::tap()
 
     for (int i = 0; i < bug_vector.size(); i++)
     {
-        auto pos = bug_vector[i]->getPosition();
         if (bug_vector[i]->isAlive())
         {
             bug_vector[i]->move();
@@ -121,10 +120,10 @@ void Board::tap()
     {
         for (int j = 0; j < 10; j++)
         {
-            // If more than one bug is in this bucket
+            // If more than one bug is in this section
             if (grid[i][j].size() > 1)
             {
-                // Pair them off (0 vs 1, 2 vs 3...)
+                // Pair them off
                 for (size_t k = 0; k + 1 < grid[i][j].size(); k += 2)
                 {
                     Bug* b1 = grid[i][j][k];
@@ -176,8 +175,9 @@ void Board::tap()
             // Print ID and Type
             cout << bug_vector[i]->getId() << " ";
 
-            // This checks if the bug is a Crawler or Hopper for the label
+            // This checks if the bug is a Crawler or Hopper or a Vampire for the label
             if (dynamic_cast<Crawler*>(bug_vector[i])) cout << "Crawler ";
+            else if (dynamic_cast<VampireBug*>(bug_vector[i])) cout << "Vampire ";
             else cout << "Hopper ";
 
             cout << "Path: ";
@@ -187,7 +187,6 @@ void Board::tap()
         }
     }
 
-    // Stage 6: The Grid Display
     void Board::displayCells()
     {
         // Loop through Rows (Y)
