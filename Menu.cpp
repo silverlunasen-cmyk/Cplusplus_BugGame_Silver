@@ -2,17 +2,11 @@
 // Created by Sysadmin on 30/04/2026.
 //
 
-#include <filesystem>
+
 #include <iostream>
-#include <fstream>
-#include <sstream>
-#include <vector>
 #include <string>
 
 #include "board/Board.h"
-#include "bugs/Bug.h"
-#include "crawler/Crawler.h"
-#include "hopper/Hopper.h"
 
 using namespace std;
 
