@@ -81,22 +81,68 @@ void Board::findAndDisplayBug(int id) const
 }
 
 void Board::tap()
+{
+    std::cout << "\n--- Tapping the Board! ---\n" << std::endl;
+    for (int i = 0; i < 10; i++)
     {
-        std::cout << "\n--- Tapping the Board! ---\n" << std::endl;
-
-
-        for (int i = 0; i < bug_vector.size(); i++)
+        for (int j = 0; j < 10; j++)
         {
-            auto pos = bug_vector[i]->getPosition();
-            if (bug_vector[i]->isAlive()) {
-                bug_vector[i]->move();
+            grid[i][j].clear();
+        }
+    }
 
-                std::cout << "Bug " << bug_vector[i]->getId() << " moved to ";
-                std::cout << "(" << pos.first << ", " << pos.second <<")" << std::endl;
+
+    for (int i = 0; i < bug_vector.size(); i++)
+    {
+        auto pos = bug_vector[i]->getPosition();
+        if (bug_vector[i]->isAlive()) {
+            bug_vector[i]->move();
+
+            auto pos = bug_vector[i]->getPosition();
+
+            std::cout << "Bug " << bug_vector[i]->getId() << " moved to ";
+            std::cout << "(" << pos.first << ", " << pos.second <<")" << std::endl;
+            grid[pos.first][pos.second].push_back(bug_vector[i]);
+        }
+    }
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            // If more than one bug is in this bucket
+            if (grid[i][j].size() > 1)
+            {
+                // Pair them off (0 vs 1, 2 vs 3...)
+                for (size_t k = 0; k + 1 < grid[i][j].size(); k += 2)
+                {
+                    Bug* b1 = grid[i][j][k];
+                    Bug* b2 = grid[i][j][k+1];
+
+                    b1->drainHealth(b2);
+                    b2->drainHealth(b1);
+
+                    cout << "Fight! Between " << b1->getId() << " and " << b2->getId() << std::endl;
+                    // Conduct 3 rounds of fighting
+                    for (int round = 0; round < 3; round++)
+                    {
+                        // Random damage 0-5
+                        b1->setHealth(b1->getHealth() - (rand() % 6));
+                        b2->setHealth(b2->getHealth() - (rand() % 6));
+
+                        cout << b1->getId() << "has: " << b1->getHealth() << " health remaining" << endl;
+                        cout << b2->getId() << "has:  " << b2->getHealth() << " health remaining" << endl;
+                        // End fight immediately if someone dies
+                        if (!b1->isAlive() || !b2->isAlive())
+                        {
+                            std::cout << "the fight is over!";
+                            break;
+                        }
+                    }
+                }
             }
         }
-
     }
+}
 
 
     void Board::displayAllHistories() const
@@ -187,5 +233,3 @@ void Board::tap()
         outFile.close();
         std::cout << "All life histories saved to " << filename << std::endl;
     }
-
-
