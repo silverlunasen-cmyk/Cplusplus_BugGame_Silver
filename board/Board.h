@@ -13,7 +13,8 @@ using namespace std;
 
 class Bug;
 
-class Board {
+class Board
+{
 private:
 
 

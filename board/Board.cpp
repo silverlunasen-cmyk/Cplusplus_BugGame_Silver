@@ -10,8 +10,10 @@
 #include <fstream>
 
 Board::Board(){};
-Board::~Board() {
-    for (Bug* b : bug_vector) {
+Board::~Board()
+{
+    for (Bug* b : bug_vector)
+    {
         delete b;
     }
     bug_vector.clear();
@@ -222,7 +224,6 @@ void Board::tap()
         }
     }
 
-    // Stage 8: Save to file
     void Board::saveHistoryToFile(const string& filename)
     {
         ofstream outFile(filename);

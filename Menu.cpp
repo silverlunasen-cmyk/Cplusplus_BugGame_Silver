@@ -32,7 +32,8 @@ int main()
         cout << "Enter your choice: \n";
         cin >> input;
 
-        switch (input) {
+        switch (input)
+        {
         case 1:
             cout << "Initialising Bug board... \n";
             gameBoard.readIn();
