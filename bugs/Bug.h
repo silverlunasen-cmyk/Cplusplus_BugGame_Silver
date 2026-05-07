@@ -44,7 +44,7 @@ public:
         }
     }
 
-    void drainHealth(Bug* victim);
+    virtual void drainHealth(Bug* victim) {}
     bool isAlive() const;
     bool isBlocked() const;
 };
