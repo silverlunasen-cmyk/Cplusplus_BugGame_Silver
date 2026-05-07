@@ -26,7 +26,7 @@ Board::~Board() {
             cout << "file not able to be opened!";
         }
 
-        // Read the type character (c or h)
+        // Read the type character (c or h or v)
         while (file >> type)
         {
             file >> sep;         // eat first ';'
@@ -40,16 +40,16 @@ Board::~Board() {
 
             if (type == 'c')
             {
-                bug_vector.push_back(new Crawler(id, x, y, static_cast<enum direction>(dir), health));
+                bug_vector.push_back(new Crawler(id, x, y, static_cast< direction>(dir), health));
             }
             else if (type == 'h')
             {
                 file >> sep >> hop; // get extra ';' and hopLength for Hoppers
-                bug_vector.push_back(new Hopper(id, x, y, static_cast<enum direction>(dir), health, hop));
+                bug_vector.push_back(new Hopper(id, x, y, static_cast<direction>(dir), health, hop));
             }
             else if (type == 'v')
             {
-                bug_vector.push_back(new VampireBug(id, x, y, static_cast<enum direction>(dir), health));
+                bug_vector.push_back(new VampireBug(id, x, y, static_cast<direction>(dir), health));
             }
         }
         file.close();
