@@ -17,7 +17,7 @@ class Crawler : public Bug
       using Bug::Bug;
 
     void move() override;
-    void display() override;
+    void display() const override;
 
 };
 

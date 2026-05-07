@@ -18,7 +18,7 @@ public:
     Hopper(int id, int x, int y, enum direction dir, int health, int hopLength);
 
     void move() override;
-    void display() override;
+    void display() const;
 
 };
 

@@ -17,7 +17,7 @@ void Crawler::move()
         previousPath.push_back(position);
 }
 
-void Crawler::display()
+void Crawler::display() const
 {
     std::string status = (health > 0) ? "Alive" : "Dead";
     std::string dirName[] = {"", "North", "South", "East", "West"};

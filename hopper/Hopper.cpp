@@ -19,7 +19,7 @@ void Hopper::move()
     previousPath.push_back(position);
 
 }
-void Hopper::display()
+void Hopper::display() const
 {
     std::string status = (health > 0) ? "Alive" : "Dead";
     std::string dirName[] = {"", "North", "South", "East", "West"};
