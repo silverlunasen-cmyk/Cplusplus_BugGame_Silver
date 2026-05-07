@@ -29,7 +29,22 @@ public:
 
     int getId() const { return id; }
     std::pair<int, int> getPosition() const { return position; }
-    
+    int getHealth() const
+    {
+        return health;
+    }
+
+    void setHealth(int h)
+    {
+        health = h;
+        if (health <= 0)
+        {
+            health = 0;
+            alive = false;
+        }
+    }
+
+    void drainHealth(Bug* victim);
     bool isAlive() const;
     bool isBlocked() const;
 };
